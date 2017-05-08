@@ -192,9 +192,9 @@ class NakedApts(object):
         payload = sorted(payload, key=lambda x: x[0])
         
         if TESTRUN:
-            print payload
+            print json.dumps(payload)
 
-        return {'user':self.user, 'count':iCount, 'data':payload}
+        return {'user':self.user, 'count':iCount, 'data':json.dumps(payload)}
 
     #LOGIN
     def Login(self, username, password):
