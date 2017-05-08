@@ -33,7 +33,14 @@ main({
         },
     }, 'context')
 ```
-This will return an array of arrays 
+This will return a JSON object 
 ``` python
-[["MONTH", "DAY", "YEAR"],...]
+{
+    "count" : "STRING",
+    "data" : inquiries,
+    "user" : "STRING"
+}
 ```
+count = total inquiry count
+data = [["MONTH", "DAY", "YEAR"],...]
+user = the username of the person you scraped inquiries for
