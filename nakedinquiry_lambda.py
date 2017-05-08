@@ -15,7 +15,7 @@ with open('awscreds.json') as data_file:
 aws_id  = creds['id']
 aws_key = creds['key']
 
-TESTRUN = False
+TESTRUN = True
 
 
 class NakedApts(object):
@@ -42,6 +42,7 @@ class NakedApts(object):
             print "Checking inbox inquiries"
             pageCount = 1
             while True:
+                
                 print 'Scraping page:', str(pageCount)
                 r = self.session.get((inbox_url+str(pageCount)), proxies=self.proxies)
                 soup = BeautifulSoup(r.content, "html.parser")
@@ -74,6 +75,8 @@ class NakedApts(object):
             print 'Checking archived inquiries...'
             pageCount = 1
             while True:
+                if TESTRUN:
+                    break
                 print 'Scraping page:', str(pageCount)
                 r = self.session.get((archived_url+str(pageCount)), proxies=self.proxies)
                 soup = BeautifulSoup(r.content, "html.parser")
@@ -108,6 +111,8 @@ class NakedApts(object):
             print 'Checking deleted inquiries...'
             pageCount = 1
             while True:
+                if TESTRUN:
+                    break
                 print 'Scraping page:', str(pageCount)
                 r = self.session.get((deleted_url+str(pageCount)), proxies=self.proxies)
                 soup = BeautifulSoup(r.content, "html.parser")
@@ -158,25 +163,38 @@ class NakedApts(object):
                     m = int(i[7].split('/')[0].lstrip('0'))
                     d = int(i[7].split('/')[1].lstrip('0'))
                     y = int("20" + str(i[7].split('/')[2].strip()))
-                    inquiryData.append([m,d,y])
+                    date = datetime.datetime.strptime("{}-{}-{}".format(m, d, y), '%m-%d-%Y')
+                    inquiryData.append(date)
                 except:
                     today = datetime.date.today()
                     m = today.month
                     d = today.day
                     y = today.year
-                    inquiryData.append([m,d,y])
+                    date = datetime.datetime.strptime("{}-{}-{}".format(m, d, y), '%m-%d-%Y')
+                    inquiryData.append(date)
             
             #all done
             break
+        
         print iCount, 'total inquiries found.'
-        iD = []
-        collection = collections.Counter(tuple(x) for x in iter(inquiryData))
-        for index in range(0, len(collection.keys())):
-            iD.append([collection.keys()[index], collection.values()[index]])
-        inquiryData = iD
-        if TESTRUN == True:
-            print inquiryData
-        return {'user':self.user, 'count':iCount, 'data':inquiryData}
+        
+        
+        #now we count frequency of inquiries
+        
+        itemCounter = collections.Counter(inquiryData)
+        payload = []
+
+        for item in inquiryData:
+            payload.append((item.strftime("%m-%d-%Y"), itemCounter[item]))
+
+        #delete multiple entries and sort the list by date
+        payload = set(payload)
+        payload = sorted(payload, key=lambda x: x[0])
+        
+        if TESTRUN:
+            print payload
+
+        return {'user':self.user, 'count':iCount, 'data':payload}
 
     #LOGIN
     def Login(self, username, password):
