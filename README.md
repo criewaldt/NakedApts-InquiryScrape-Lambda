@@ -6,13 +6,12 @@ AWS DynamoDB read/write permission
 
 DynamoDB table: `advertapi-proxylist`
 
-    schema: {
-        "ip" : "STRING",
-        "lastused" : `datetime.datetime.utcnow()`,
-        "password" : "mypassword",
-        "port" : "12345",
-        "username" : "myusername"
-    }
+Schema:
+    "ip" : "STRING",
+    "lastused" : `datetime.datetime.utcnow()`,
+    "password" : "mypassword",
+    "port" : "12345",
+    "username" : "myusername"
 
 **This tool uses AWS region: us-east-1** 
 
