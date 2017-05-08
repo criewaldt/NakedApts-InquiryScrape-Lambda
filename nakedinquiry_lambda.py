@@ -177,16 +177,21 @@ class NakedApts(object):
         payload = []
 
         for item in inquiryData:
-            payload.append((item.strftime("%m-%d-%Y"), itemCounter[item]))
+            payload.append((item, itemCounter[item]))
 
         #delete multiple entries and sort the list by date
         payload = set(payload)
+
         payload = sorted(payload, key=lambda x: x[0])
         
         if TESTRUN:
-            print json.dumps(payload)
+            print payload
 
-        return {'user':self.user, 'count':iCount, 'data':json.dumps(payload)}
+        sPayload = []
+        for item in payload:
+            sPayload.append([item[0].strftime("%m-%d-%Y"), item[1]])
+            
+        return {'user':self.user, 'count':iCount, 'data':sPayload}
 
     #LOGIN
     def Login(self, username, password):

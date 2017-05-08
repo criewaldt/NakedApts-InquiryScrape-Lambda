@@ -25,7 +25,6 @@ def correctLogin():
     return True
 
 if __name__ == "__main__":
-    print "Incorrect login:"
+
     print incorrectLogin()
-    print "Correct login:"
     print correctLogin()
