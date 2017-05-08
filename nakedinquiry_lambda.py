@@ -24,26 +24,6 @@ class NakedApts(object):
         self.session.headers={'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'}
         self.status = self.Login(username, password)
 
-    def get_ads(self,):
-        url = "http://www.nakedapartments.com/broker/listings?all=true&listings_scope=published&order=asc&page=1&sort=rent"
-        r = self.session.get(url, proxies=self.proxies)
-        soup = BeautifulSoup(r.content, "html.parser")
-        trs = soup.find_all("tr")
-        del trs[0]
-        del trs[-1]
-        for tr in trs:
-            address = tr.find("td", {"class":"listing"})
-            webid = address.a.text.split("Web ID:")[1].strip()
-            address = address.a.text.split("Web ID")[0].strip().split(',')[0]
-            size = tr.find("td", {"class":"aptSize"}).text.strip()
-            rent = tr.find("td", {"class":"listing-rent"}).text.strip()
-            try:
-                img = tr.find("img").get('src')
-            except AttributeError:
-                img = "static/images/missing.jpg"
-            self.ads.append([('''<img src='''+img+'''" alt="" height="68" width="90">'''), address, size, rent, webid, ('''<input type="checkbox" name="'''+webid+'''" id="'''+webid+'''">''')])
-        return self.ads
-
     def get_inquiry_data(self,):
         iCount = 0
         hardStop = False
