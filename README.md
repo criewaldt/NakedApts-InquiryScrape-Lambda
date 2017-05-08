@@ -4,15 +4,15 @@ AWS Lambda to scrape and return inquiry data from NakedApartments account
 ## Requires 
 AWS DynamoDB read/write permission 
 
-DynamoDB table: `advertapi-proxylist`
+DynamoDB table: `advertapi-proxylist` populated with HTTP proxy info and login credentials 
 
-`advertapi-proxylist` Schema:
+`advertapi-proxylist` schema:
     
     "ip" : "STRING",
-    "lastused" : `datetime.datetime.utcnow()`,
-    "password" : "mypassword",
-    "port" : "12345",
-    "username" : "myusername"
+    "lastused" : datetime.datetime.utcnow(),
+    "password" : "STRING",
+    "port" : "STRING",
+    "username" : "STRING"
     
 **This tool uses AWS region: us-east-1** 
 
