@@ -26,9 +26,9 @@ This tool uses AWS region **us-east-1**
 _test.py_
 ``` python
 from nakedinquiry_lambda import main
-inquiries = main({'auth':{
-                'username':'someone@somewhere.com',
-                'password':'someonespassword'},}, 'context')
+main({'auth':{
+    'username':'someone@somewhere.com',
+    'password':'someonespassword'},}, 'context')
 ```
 This will return an array of arrays 
 ``` python
