@@ -4,6 +4,7 @@ AWS Lambda to scrape and return inquiry data from NakedApartments account
 ## Requires 
 AWS DynamoDB read/write permission and accompanying `awscreds.json` file
 `awscreds.json` schema:
+
     "id" : "STRING",
     "key" : "STRING"
 
