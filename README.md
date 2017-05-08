@@ -9,7 +9,7 @@ AWS DynamoDB read/write permission and accompanying `awscreds.json` file
     "id" : "STRING",
     "key" : "STRING"
 
-DynamoDB table: `advertapi-proxylist` populated with HTTP proxy info and login credentials 
+DynamoDB table: `advertapi-proxylist` populated with HTTPS proxy info and login credentials 
 
 `advertapi-proxylist` schema:
     
