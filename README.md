@@ -7,6 +7,7 @@ AWS DynamoDB read/write permission
 DynamoDB table: `advertapi-proxylist`
 
 Schema:
+    
     {
     "ip" : "STRING",
     "lastused" : `datetime.datetime.utcnow()`,
