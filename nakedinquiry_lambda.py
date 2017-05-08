@@ -14,8 +14,9 @@ with open('awscreds.json') as data_file:
     creds = json.load(data_file)
 aws_id  = creds['id']
 aws_key = creds['key']
+aws_region = creds['region']
 
-TESTRUN = True
+TESTRUN = False
 
 
 class NakedApts(object):
@@ -131,17 +132,11 @@ class NakedApts(object):
                         result.append(td.text.strip())
                     if len(result) > 0:
                         inquiries.append(result)
-
-                if TESTRUN:
-                    break
-                else:
-                    pass
                         
                 pageCount += 1
                 time.sleep(random.randint(1,5))
                 
             ##WE NOW HAVE ADS! Clean the data
-            
             
             for i in inquiries:
                 try:
@@ -154,10 +149,8 @@ class NakedApts(object):
                     i[7] = i[7].split(' ')[1].strip()
                 except:
                     pass
+                
             ##Convert the dates to objects
-            
-            
-
             for i in inquiries:
                 try:
                     m = int(i[7].split('/')[0].lstrip('0'))
@@ -180,7 +173,6 @@ class NakedApts(object):
         
         
         #now we count frequency of inquiries
-        
         itemCounter = collections.Counter(inquiryData)
         payload = []
 
@@ -225,7 +217,7 @@ def get_proxy_list():
     resource = boto3.resource('dynamodb',
             aws_access_key_id=aws_id,
             aws_secret_access_key=aws_key,
-            region_name='us-east-1')
+            region_name=aws_region)
     proxy_table = resource.Table('advertapi-proxylist')
     #grab proxy list
     response = proxy_table.scan()
@@ -238,7 +230,7 @@ def next_proxy(proxy_list):
     resource = boto3.resource('dynamodb',
             aws_access_key_id=aws_id,
             aws_secret_access_key=aws_key,
-            region_name='us-east-1')
+            region_name=aws_region)
     proxy_table = resource.Table('advertapi-proxylist')
 
     #do dynamodb request
