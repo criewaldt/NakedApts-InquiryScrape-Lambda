@@ -8,6 +8,7 @@ import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 import time, random
+import collections
 
 with open('awscreds.json') as data_file:    
     creds = json.load(data_file)
@@ -168,6 +169,13 @@ class NakedApts(object):
             #all done
             break
         print iCount, 'total inquiries found.'
+        iD = []
+        collection = collections.Counter(tuple(x) for x in iter(inquiryData))
+        for index in range(0, len(collection.keys())):
+            iD.append([collection.keys()[index], collection.values()[index]])
+        inquiryData = iD
+        if TESTRUN == True:
+            print inquiryData
         return {'user':self.user, 'count':iCount, 'data':inquiryData}
 
     #LOGIN

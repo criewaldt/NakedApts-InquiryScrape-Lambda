@@ -10,12 +10,12 @@ incorrect_password = "thisIsthewrongpassword"
 #Incorrect login
 assert main({'auth':{
                 'username': username,
-                'password': password,
+                'password': incorrect_password,
                 }}, 'context') == None
 
 #Correct login
 assert main({'auth':{
                 'username' : username,
-                'password' : incorrect_password,
+                'password' : password,
                 }}, 'context')
 
