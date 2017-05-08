@@ -4,7 +4,7 @@ AWS Lambda to scrape and return inquiry data from NakedApartments account
 ## Requires 
 AWS DynamoDB read/write permission 
 DynamoDB table: `advertapi-proxylist` 
-**This tool uses AWS region: us-east-1**
+**This tool uses AWS region: us-east-1** 
 
 ## Example Usage 
 ``` python
