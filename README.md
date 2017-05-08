@@ -1,11 +1,11 @@
-#NakedApts-InquiryScrape
+#NakedApts-InquiryScrape 
 AWS Lambda to scrape and return inquiry data from NakedApartments account
 
-##Requires
+##Requires 
 AWS DynamoDB read/write permission
 DynamoDB table: `advertapi-proxylist`
 
-##Input
+##Input 
 Example usage: 
 ``` python
 inquiries = main({'auth':{
