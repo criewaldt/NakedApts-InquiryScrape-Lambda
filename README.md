@@ -21,8 +21,11 @@ DynamoDB table: `advertapi-proxylist` populated with HTTP proxy info and login c
     
 This tool uses AWS region **us-east-1** 
 
-## Example Usage 
+## Example Usage
+
+_test.py_
 ``` python
+from nakedinquiry_lambda import main
 inquiries = main({'auth':{
                 'username':'someone@somewhere.com',
                 'password':'someonespassword'},}, 'context')
