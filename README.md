@@ -8,13 +8,12 @@ DynamoDB table: `advertapi-proxylist`
 
 Schema:
     
-    {
     "ip" : "STRING",
     "lastused" : `datetime.datetime.utcnow()`,
     "password" : "mypassword",
     "port" : "12345",
     "username" : "myusername"
-    }
+    
 **This tool uses AWS region: us-east-1** 
 
 ## Example Usage 
