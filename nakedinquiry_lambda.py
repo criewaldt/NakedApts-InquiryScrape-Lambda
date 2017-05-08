@@ -9,6 +9,12 @@ from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 import time, random
 
+with open('awscreds.json') as data_file:    
+    creds = json.load(data_file)
+aws_id  = creds['id']
+aws_key = creds['key']
+
+
 class NakedApts(object):
     def __init__(self, username, password, proxies):
         self.ads = []
@@ -72,7 +78,6 @@ class NakedApts(object):
                     if len(result) > 0:
                         inquiries.append(result)
                 pageCount += 1
-                break
                 time.sleep(random.randint(1,5))
 
             #archived
@@ -150,11 +155,14 @@ class NakedApts(object):
                     m = int(i[7].split('/')[0].lstrip('0'))
                     d = int(i[7].split('/')[1].lstrip('0'))
                     y = int("20" + str(i[7].split('/')[2].strip()))
+                    inquiryData.append([m,d,y])
                 except:
                     today = datetime.date.today()
                     m = today.month
                     d = today.day
                     y = today.year
+                    inquiryData.append([m,d,y])
+            
             #all done
             break
         print iCount, 'total inquiries found.'
@@ -187,8 +195,8 @@ class NakedApts(object):
 
 def get_proxy_list():
     resource = boto3.resource('dynamodb',
-            aws_access_key_id='AKIAIOZC3MKUZ2CG6VJQ',
-            aws_secret_access_key='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',
+            aws_access_key_id=aws_id,
+            aws_secret_access_key=aws_key,
             region_name='us-east-1')
     proxy_table = resource.Table('advertapi-proxylist')
     #grab proxy list
@@ -200,8 +208,8 @@ def next_proxy(proxy_list):
     nextProxy = sorted([datetime.datetime.strptime(item['lastused'], "%Y-%m-%d %H:%M:%S.%f") for item in proxy_list])[0]
 
     resource = boto3.resource('dynamodb',
-            aws_access_key_id='AKIAIOZC3MKUZ2CG6VJQ',
-            aws_secret_access_key='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',
+            aws_access_key_id=aws_id,
+            aws_secret_access_key=aws_key,
             region_name='us-east-1')
     proxy_table = resource.Table('advertapi-proxylist')
 
@@ -247,7 +255,6 @@ def main(event, context):
     na.Logout()
 
     print 'Returning response & shutting down'
-
     return iD
     
 if __name__ == "__main__":
