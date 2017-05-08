@@ -14,6 +14,8 @@ with open('awscreds.json') as data_file:
 aws_id  = creds['id']
 aws_key = creds['key']
 
+TESTRUN = False
+
 
 class NakedApts(object):
     def __init__(self, username, password, proxies):
@@ -57,8 +59,15 @@ class NakedApts(object):
                         result.append(td.text.strip())
                     if len(result) > 0:
                         inquiries.append(result)
+
+                if TESTRUN:
+                    break
+                else:
+                    pass
+                        
                 pageCount += 1
                 time.sleep(random.randint(1,5))
+                
 
             #archived
             print 'Checking archived inquiries...'
@@ -82,6 +91,13 @@ class NakedApts(object):
                         result.append(td.text.strip())
                     if len(result) > 0:
                         inquiries.append(result)
+
+                if TESTRUN:
+                    break
+                else:
+                    pass
+                        
+                
                 pageCount += 1
                 time.sleep(random.randint(1,5))
                 
@@ -109,6 +125,12 @@ class NakedApts(object):
                         result.append(td.text.strip())
                     if len(result) > 0:
                         inquiries.append(result)
+
+                if TESTRUN:
+                    break
+                else:
+                    pass
+                        
                 pageCount += 1
                 time.sleep(random.randint(1,5))
                 
@@ -219,7 +241,7 @@ def next_proxy(proxy_list):
 def main(event, context):
     username = event['auth']['username']
     password = event['auth']['password']
-    
+        
     #grab the next proxy to use from the db
     print 'Grabbing proxy from DynamoDB: advertapi-proxylist' 
     proxies = next_proxy(get_proxy_list())
