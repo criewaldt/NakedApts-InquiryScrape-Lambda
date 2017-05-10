@@ -259,17 +259,36 @@ def next_proxy(proxy_list):
     )  
     return proxies
 
+def upload_results(results):
+
+    resource = boto3.resource('dynamodb',
+            aws_access_key_id=aws_id,
+            aws_secret_access_key=aws_key,
+            region_name=aws_region)
+    tbl = resource.Table('advertrefresh-nakedapts-inquiry')
+
+    #update proxylist db
+    response = tbl.put_item(
+       Item={
+            'username': results['user'].replace("@", "....."),
+            'nakedapts-inquiry': results['data'],
+            'count': str(results['count']),
+            'lastupdated': str(datetime.datetime.utcnow())
+        }
+    )  
+    print response
+
 
 
 def main(event, context):
-    username = event['auth']['username']
-    password = event['auth']['password']
+    username = event['username']
+    password = event['password']
         
     #grab the next proxy to use from the db
-    print 'Grabbing proxy from DynamoDB: advertapi-proxylist' 
+    #print 'Grabbing proxy from DynamoDB: advertapi-proxylist' 
     proxies = next_proxy(get_proxy_list())
 
-    print 'Attempting NakedApts login...'
+    #print 'Attempting NakedApts login...'
     na = NakedApts(username, password, proxies)
     if not na.status:
         return None
@@ -279,12 +298,15 @@ def main(event, context):
     
     na.Logout()
 
-    print 'Returning response & shutting down'
+    print 'Uploading response & shutting down'
+
+    upload_results(iD)
+    
     return iD
     
 if __name__ == "__main__":
     pass
-
+    
 
     
     

@@ -9,19 +9,17 @@ incorrect_password = "definitelyNotThePassword"
 
 #Incorrect login
 def incorrectLogin():
-    assert main({'auth':{
-                'username': username,
+    assert main({'username': username,
                 'password': incorrect_password,
-                }}, 'context') == None
+                }, 'context') == None
 
     return True
 
 #Correct login
 def correctLogin():
-    assert main({'auth':{
-                    'username' : username,
-                    'password' : password,
-                    }}, 'context')
+    assert main({'username' : username,
+                'password' : password,
+                }, 'context')
     return True
 
 if __name__ == "__main__":
